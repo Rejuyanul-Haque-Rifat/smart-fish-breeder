@@ -97,4 +97,34 @@
         .hide-scroll::-webkit-scrollbar {
             display: none;
         }
+
+        #chat-panel {
+            transform-origin: bottom right;
+        }
+
+        #chat-panel:not(.hidden) {
+            animation: chatPanelReveal 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes chatPanelReveal {
+            from {
+                opacity: 0;
+                transform: translateY(14px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        #chat-launcher {
+            box-shadow:
+                0 12px 28px -8px rgba(37, 99, 235, 0.55),
+                0 4px 12px -4px rgba(79, 70, 229, 0.35);
+        }
+
+        #chat-launcher:hover {
+            filter: brightness(1.05);
+        }
+
     
