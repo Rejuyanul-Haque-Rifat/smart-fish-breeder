@@ -55,6 +55,30 @@
             document.getElementById('auth-modal').classList.remove('flex');
         };
 
+        const CHAT_EMBED_URL = 'https://paralyze-deuce-trolling.ngrok-free.dev/webhook/d3e684b4-0464-42fb-8955-83d3fd60d256/chat';
+
+        window.toggleChatWidget = function() {
+            const panel = document.getElementById('chat-panel');
+            const iframe = document.getElementById('chat-iframe');
+            const icon = document.getElementById('chat-launcher-icon');
+            if (!panel) return;
+            const opening = panel.classList.contains('hidden');
+            if (opening) {
+                panel.classList.remove('hidden');
+                if (iframe && !iframe.getAttribute('src')) iframe.setAttribute('src', CHAT_EMBED_URL);
+                if (icon) {
+                    icon.classList.remove('fa-comments');
+                    icon.classList.add('fa-xmark');
+                }
+            } else {
+                panel.classList.add('hidden');
+                if (icon) {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-comments');
+                }
+            }
+        };
+
         window.toggleAuthMode = function() {
             isLoginMode = !isLoginMode;
             if(isLoginMode) {
