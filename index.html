@@ -5,10 +5,217 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Smart Fish Breeder</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+<style>
+    
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f0f4f8;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.04);
+        }
+        
+        .bottom-nav-glass {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .animate-enter {
+            animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-enter {
+            animation: pageFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes pageFadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .smooth-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-enter {
+            animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.9) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .toggle-switch {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .has-ripple {
+            position: relative;
+            overflow: hidden;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .ripple-span {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-animation 600ms linear;
+            background-color: rgba(0, 0, 0, 0.08);
+            pointer-events: none;
+        }
+
+        .has-ripple.dark-ripple .ripple-span {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+            .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+@keyframes fadeUp { 
+    from { opacity: 0; transform: translateY(10px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+
+@keyframes bounce { 
+    0%, 80%, 100% { transform: scale(0); } 
+    40% { transform: scale(1); } 
+}
+
+@keyframes wordFadeIn {
+    from { opacity: 0; transform: translateY(3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-bubble {
+    max-width: 80%; 
+    padding: 12px 16px; 
+    border-radius: 18px; 
+    font-size: 15px; 
+    font-weight: 700 !important;
+    line-height: 1.5;
+    position: relative; 
+    word-wrap: break-word; 
+    opacity: 0;
+    animation: fadeUp 0.4s ease-out forwards;
+}
+
+.suggestion-chip {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e2e8f0;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700 !important;
+    cursor: pointer;
+    transition: 0.3s;
+    flex-shrink: 0;
+}
+
+
+.chat-bubble.bot {
+    align-self: flex-start; 
+    background: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255,255,255,0.05); 
+    border-bottom-left-radius: 4px; 
+    color: #e2e8f0;
+}
+
+.chat-bubble.user {
+    align-self: flex-end; 
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    border-bottom-right-radius: 4px; 
+    color: white; 
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.typing-box {
+    display: none; 
+    align-self: flex-start; 
+    background: rgba(255,255,255,0.05); 
+    padding: 15px 20px; 
+    border-radius: 20px;
+    border-bottom-left-radius: 4px; 
+    gap: 6px; 
+    width: fit-content; 
+    margin-bottom: 10px;
+    animation: fadeUp 0.3s ease-out;
+}
+
+.dot { 
+    width: 8px; 
+    height: 8px; 
+    background: #94a3b8; 
+    border-radius: 50%; 
+    animation: bounce 1.4s infinite ease-in-out both; 
+}
+
+.dot:nth-child(1) { animation-delay: -0.32s; } 
+.dot:nth-child(2) { animation-delay: -0.16s; }
+
+.suggestion-chip:hover {
+    background: rgba(37, 99, 235, 0.5);
+    border-color: #3b82f6;
+    color: white;
+}
+
+.bot-reply span.word {
+    display: inline-block;
+    opacity: 0;
+    animation: wordFadeIn 0.3s ease forwards;
+    margin-right: 4px;
+}
+
+    
+</style>
 </head>
 <body class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen text-slate-800 overflow-x-hidden">
 <div id="loading-overlay" class="fixed inset-0 z-[120] hidden flex-col items-center justify-center bg-slate-900/40 backdrop-blur-md transition-all duration-300">
@@ -17,6 +224,25 @@
         <p class="text-sm font-bold text-slate-600 tracking-wide animate-pulse">Syncing Data...</p>
     </div>
 </div>
+
+<div id="offline-modal" class="fixed inset-0 z-[100] hidden flex-col items-center justify-center bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 px-4">
+    <div class="bg-white/95 rounded-[2.5rem] p-8 max-w-sm w-full text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] modal-enter relative overflow-hidden border border-white">
+        <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-red-500 via-orange-500 to-red-500"></div>
+        <div class="w-20 h-20 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-sm border border-red-100 relative">
+            <span class="absolute inset-0 rounded-2xl bg-red-400 opacity-20 animate-ping"></span>
+            <i class="fa-solid fa-wifi text-2xl text-red-500"></i>
+        </div>
+        <h2 class="text-xl font-bold text-slate-800 mb-2 tracking-tight">System Offline</h2>
+        <div class="inline-block bg-slate-50 border border-slate-100 rounded-lg px-3 py-1.5 mb-4">
+            <div class="text-slate-600 font-semibold text-xs">Showing cached data</div>
+        </div>
+        <div class="text-slate-500 mb-6 text-sm leading-relaxed">Please check your device connection.</div>
+        <button onclick="dismissOfflineModal()" class="has-ripple w-full py-3.5 rounded-2xl bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 font-bold text-sm border border-slate-300 shadow-sm transition-all duration-300">
+            Close
+        </button>
+    </div>
+</div>
+
 
 <div id="custom-alert-modal" class="fixed inset-0 z-[110] hidden flex-col items-center justify-center bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 px-4">
     <div class="bg-white/95 rounded-2xl p-8 max-w-sm w-full text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] modal-enter relative overflow-hidden border border-white">
@@ -143,6 +369,1539 @@
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
         </div>
+        <button onclick="requireAuth(() => moveCamServo('tilt', 10))" class="has-ripple w-12 h-12 rounded-full bg-slate-50 text-slate-600 flex items-center justify-center hover:bg-teal-50 hover:text-teal-600 active:scale-90 transition-all shadow-sm">
+            <i class="fa-solid fa-chevron-down"></i>
+        </button>
+    </div>
+</div>
+
+        </div>
+
+        <div class="glass-panel rounded-[2rem] p-6 animate-enter" style="animation-delay: 0.2s;">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-base font-bold text-slate-800 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
+                        <i class="fa-solid fa-fish-fins"></i>
+                    </div>
+                    Breeding Mode
+                </h2>
+            </div>
+            
+            <div id="fish-grid" class="grid grid-cols-4 gap-x-3 gap-y-5 py-2 overflow-hidden transition-all duration-500">
+            </div>
+            
+            <button id="toggle-fish-btn" onclick="toggleFishList()" class="hidden w-full mt-4 py-3 rounded-xl bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-wider hover:bg-slate-200 active:scale-95 transition-all">
+                See More
+            </button>
+        </div>
+
+        <div class="glass-panel rounded-[2rem] p-6 animate-enter" style="animation-delay: 0.3s;">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-base font-bold text-slate-800 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    Device Control
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4" id="relay-container">
+            </div>
+        </div>
+
+    </main>
+
+    <main id="data-page" class="hidden max-w-7xl mx-auto px-4 pt-8 pb-32 space-y-6 transition-all duration-500">
+        <h1 class="text-2xl font-bold text-slate-800 mb-4">Fish's Data</h1>
+        
+        <div class="relative mb-6">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="fa-solid fa-magnifying-glass text-slate-400"></i>
+            </div>
+            <input id="search-fish-input" oninput="searchFishData()" type="text" placeholder="Search fish by name..." class="w-full bg-white border border-slate-200 rounded-xl pl-11 pr-4 py-3.5 text-sm text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all shadow-sm">
+        </div>
+
+        <div id="custom-fish-list" class="space-y-4">
+        </div>
+
+    </main>
+
+    <main id="settings-page" class="hidden max-w-7xl mx-auto px-4 pt-8 pb-32 space-y-6 transition-all duration-500">
+        <h1 class="text-2xl font-bold text-slate-800 mb-2">Settings</h1>
+        
+        <div class="glass-panel rounded-[2rem] p-6">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center">
+                    <i class="fa-solid fa-wifi text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-base font-bold text-slate-800">WiFi Configuration</h2>
+                    <p class="text-xs text-slate-500">Connect device to network</p>
+                </div>
+            </div>
+
+<div class="space-y-4">
+    <div>
+        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Network Name (SSID)</label>
+        <input id="wifi-ssid" type="text" placeholder="Enter WiFi Name" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all">
+    </div>
+    <div>
+        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Password</label>
+        <input id="wifi-pass" oninput="checkPassLength()" type="text" placeholder="Enter Password" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all">
+        <p id="wifi-pass-error" class="hidden text-red-500 text-[11px] font-bold mt-1.5 ml-1 transition-all"><i class="fa-solid fa-circle-exclamation mr-1"></i>Must be at least 8 characters</p>
+    </div>
+    <button onclick="requireAuth(saveWifiConfig)" class="has-ripple w-full py-4 mt-2 rounded-xl bg-slate-800 text-white font-bold text-sm shadow-md hover:shadow-lg active:scale-95 transition-all">
+        Save Configuration
+    </button>
+</div>
+        </div>
+        
+<div class="glass-panel rounded-[1.25rem] p-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-[0.85rem] bg-orange-50 text-orange-500 flex items-center justify-center shadow-inner">
+            <i class="fa-solid fa-download text-xl"></i>
+        </div>
+        <div>
+            <h2 class="text-lg font-bold text-slate-800 leading-tight">Install App</h2>
+            <p class="text-[11px] text-slate-400 font-medium mt-0.5">Add to home screen</p>
+        </div>
+    </div>
+    
+    <div class="flex flex-col items-end">
+        <button id="install-app-btn" onclick="installPWA()" class="has-ripple px-6 py-2.5 rounded-[0.85rem] bg-slate-800 text-white font-bold text-sm shadow-sm active:scale-95 transition-all">
+            Install
+        </button>
+        <p id="install-hint" class="text-[10px] text-slate-400 font-medium text-right w-16 leading-tight hidden">Already installed</p>
+    </div>
+</div>
+    </main>
+
+    <nav class="fixed bottom-4 inset-x-4 bottom-nav-glass rounded-[2rem] pb-2 pt-2 z-40 flex items-center justify-center">
+        <div class="flex justify-around items-center w-full max-w-md px-2">
+            <button id="nav-home-page" onclick="switchPage('home-page')" class="nav-btn flex flex-col items-center justify-center w-16 h-14 rounded-xl text-blue-600 bg-blue-50 transition-all">
+                <i class="fa-solid fa-house text-xl mb-1"></i>
+                <span class="text-[10px] font-bold">Home</span>
+            </button>
+            <button id="nav-data-page" onclick="switchPage('data-page')" class="nav-btn flex flex-col items-center justify-center w-16 h-14 rounded-xl text-slate-400 transition-all">
+                <i class="fa-solid fa-database text-xl mb-1"></i>
+                <span class="text-[10px] font-bold">Data</span>
+            </button>
+            <button id="nav-settings-page" onclick="switchPage('settings-page')" class="nav-btn flex flex-col items-center justify-center w-16 h-14 rounded-xl text-slate-400 transition-all">
+                <i class="fa-solid fa-gear text-xl mb-1"></i>
+                <span class="text-[10px] font-bold">Settings</span>
+            </button>
+        </div>
+    </nav>
+
+<div id="auth-modal" class="fixed inset-0 z-[100] hidden flex-col items-center justify-center bg-slate-900/60 backdrop-blur-md px-4">
+    <div class="bg-white rounded-[2.5rem] p-8 w-full max-w-sm shadow-2xl modal-enter relative border border-white/20">
+        <div class="absolute right-6 top-6 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 cursor-pointer active:scale-90 transition-all" onclick="closeAuthModal()">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+        <div class="text-center mb-8 mt-4">
+            <div class="w-20 h-20 bg-blue-50 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-inner">
+                <i class="fa-solid fa-shield-halved text-3xl text-blue-500"></i>
+            </div>
+            <h2 id="auth-title" class="text-3xl font-extrabold text-slate-800 tracking-tight">Welcome</h2>
+            <p id="auth-subtitle" class="text-sm font-bold text-slate-500 mt-2">Sign in to continue</p>
+        </div>
+        <div class="space-y-5">
+            <button onclick="handleGoogleAuth()" class="w-full py-4 rounded-2xl bg-white border-2 border-slate-100 text-slate-700 font-bold text-sm shadow-sm hover:bg-slate-50 active:scale-95 transition-all flex items-center justify-center gap-3">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-6 h-6" alt="Google"> Continue with Google
+            </button>
+            <div class="flex items-center gap-4 my-6"><div class="h-px bg-slate-200 flex-1"></div><span class="text-xs font-black text-slate-400 uppercase tracking-widest">OR</span><div class="h-px bg-slate-200 flex-1"></div></div>
+            <div class="relative group">
+                <input id="auth-email" type="email" placeholder=" " class="peer w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-4 text-sm font-bold focus:outline-none focus:border-blue-500 focus:bg-white transition-all">
+                <label class="absolute left-5 top-4 text-slate-400 font-bold text-sm pointer-events-none transition-all peer-focus:-top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-blue-500 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2">Email Address</label>
+            </div>
+            <div class="relative group">
+                <input id="auth-password" type="password" placeholder=" " class="peer w-full bg-slate-50 border-2 border-transparent rounded-2xl px-5 py-4 text-sm font-bold focus:outline-none focus:border-blue-500 focus:bg-white transition-all">
+                <label class="absolute left-5 top-4 text-slate-400 font-bold text-sm pointer-events-none transition-all peer-focus:-top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:bg-white peer-focus:px-2 peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-blue-500 peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-2">Password</label>
+            </div>
+            <button onclick="handleEmailAuth()" id="auth-action-btn" class="w-full py-4 rounded-2xl bg-blue-600 text-white font-black text-sm shadow-xl shadow-blue-500/30 hover:bg-blue-700 active:scale-95 transition-all mt-2">Sign In</button>
+        </div>
+        <p class="text-center text-xs font-bold text-slate-500 mt-8"><span id="auth-toggle-text">New here?</span><span onclick="toggleAuthMode()" class="text-blue-600 font-black cursor-pointer hover:underline ml-1">Create Account</span></p>
+    </div>
+</div>
+
+
+    <div id="profile-modal" class="fixed inset-0 z-[60] hidden flex-col items-center justify-center bg-slate-900/40 backdrop-blur-sm px-4">
+        <div class="bg-white rounded-[2rem] p-6 w-full max-w-sm shadow-2xl modal-enter relative">
+            <div class="absolute right-4 top-4 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 cursor-pointer active:scale-90 transition-all" onclick="closeProfileModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            
+            <div class="flex flex-col items-center text-center mt-4">
+                <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-blue-50 shadow-lg mb-4">
+                    <img id="modal-profile-img" src="https://ui-avatars.com/api/?name=User&background=eff6ff&color=3b82f6&size=100" alt="Profile" class="w-full h-full object-cover">
+                </div>
+                <h2 id="modal-profile-name" class="text-xl font-bold text-slate-800 mb-1">User Name</h2>
+                <p id="modal-profile-email" class="text-sm font-medium text-slate-500 mb-6 bg-slate-50 px-4 py-1 rounded-full border border-slate-100">user@example.com</p>
+                
+                <div class="w-full space-y-3">
+                    <button class="w-full flex items-center justify-between p-4 bg-rose-50 rounded-xl hover:bg-rose-100 transition-all active:scale-95 text-rose-600" onclick="logoutUser()">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            <span class="font-bold text-sm">Log Out</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fish-modal" class="fixed inset-0 z-[60] hidden flex-col items-center justify-center bg-slate-900/40 backdrop-blur-sm px-4">
+        <div class="bg-white rounded-[2rem] p-6 w-full max-w-md shadow-2xl modal-enter relative max-h-[90vh] overflow-y-auto hide-scroll">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="modal-title" class="text-lg font-bold text-slate-800">Add New Fish</h2>
+                <div onclick="closeFishModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 cursor-pointer active:scale-90 transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </div>
+
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Fish Name</label>
+                    <input id="input-fish-name" type="text" placeholder="e.g. Discus" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Min pH</label>
+                        <input id="input-ph-min" type="number" step="0.1" placeholder="6.0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Max pH</label>
+                        <input id="input-ph-max" type="number" step="0.1" placeholder="7.5" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Min Temp (°C)</label>
+                        <input id="input-temp-min" type="number" placeholder="24" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Max Temp (°C)</label>
+                        <input id="input-temp-max" type="number" placeholder="28" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between bg-slate-50 rounded-xl p-4 border border-slate-100">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+                            <i class="fa-solid fa-water"></i>
+                        </div>
+                        <span class="text-sm font-bold text-slate-700">Water Flow</span>
+                    </div>
+                    <div class="relative inline-block w-12 align-middle select-none cursor-pointer" onclick="toggleInput('flow')">
+                        <div id="track-input-flow" class="w-12 h-6 bg-slate-200 rounded-full shadow-inner smooth-transition"></div>
+                        <div id="knob-input-flow" class="toggle-switch absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-md"></div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between bg-slate-50 rounded-xl p-4 border border-slate-100">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                            <i class="fa-solid fa-cloud-rain"></i>
+                        </div>
+                        <span class="text-sm font-bold text-slate-700">Rain System</span>
+                    </div>
+                    <div class="relative inline-block w-12 align-middle select-none cursor-pointer" onclick="toggleInput('rain')">
+                        <div id="track-input-rain" class="w-12 h-6 bg-slate-200 rounded-full shadow-inner smooth-transition"></div>
+                        <div id="knob-input-rain" class="toggle-switch absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-md"></div>
+                    </div>
+                </div>
+
+                <button onclick="saveFishData()" class="has-ripple w-full py-4 rounded-xl bg-blue-600 text-white font-bold text-sm shadow-lg shadow-blue-500/30 hover:bg-blue-700 active:scale-95 transition-all mt-4">
+                    Save Fish Data
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="delete-modal" class="fixed inset-0 z-[65] hidden flex-col items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4">
+        <div class="bg-white rounded-[2rem] p-6 max-w-xs w-full text-center shadow-2xl modal-enter">
+            <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-triangle-exclamation text-2xl text-red-500"></i>
+            </div>
+            <h2 class="text-lg font-bold text-slate-800 mb-2">Delete Fish?</h2>
+            <p class="text-slate-500 mb-6 text-sm">Are you sure you want to remove this fish from your database?</p>
+            <div class="flex gap-3">
+                <button onclick="closeDeleteModal()" class="flex-1 py-3 rounded-xl bg-slate-100 text-slate-600 font-bold text-sm active:scale-95 transition-all">Cancel</button>
+                <button onclick="confirmDelete()" class="flex-1 py-3 rounded-xl bg-red-500 text-white font-bold text-sm shadow-lg shadow-red-500/30 active:scale-95 transition-all">Delete</button>
+            </div>
+        </div>
+    </div>
+    <div id="pump-confirm-modal" class="fixed inset-0 z-[115] hidden flex-col items-center justify-center bg-slate-900/60 backdrop-blur-sm px-4">
+    <div class="bg-white rounded-[2rem] p-6 max-w-xs w-full text-center shadow-2xl modal-enter">
+        <div class="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-orange-100">
+            <i class="fa-solid fa-flask text-2xl text-orange-500"></i>
+        </div>
+        <h2 class="text-lg font-bold text-slate-800 mb-2" id="pump-confirm-title">Warning</h2>
+        <p class="text-slate-500 mb-6 text-sm leading-relaxed" id="pump-confirm-msg">Are you sure?</p>
+        <div class="flex gap-3">
+            <button onclick="closePumpConfirm()" class="flex-1 py-3 rounded-xl bg-slate-100 text-slate-600 font-bold text-sm active:scale-95 transition-all border border-slate-200">Cancel</button>
+            <button id="pump-confirm-btn" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-orange-400 to-orange-500 text-white font-bold text-sm shadow-lg shadow-orange-500/30 active:scale-95 transition-all">Confirm</button>
+        </div>
+    </div>
+</div>
+
+    <div class="fixed bottom-28 right-6 flex flex-col-reverse items-end gap-3 z-50 pointer-events-none">
+<button id="jump-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-28 right-6 w-14 h-14 bg-white/80 backdrop-blur-xl border border-white rounded-2xl shadow-lg flex items-center justify-center text-slate-600 opacity-0 scale-90 pointer-events-none transition-all duration-300 z-40">
+    <i class="fa-solid fa-arrow-up"></i>
+</button>
+
+<div id="action-buttons" class="fixed bottom-28 right-6 flex flex-col-reverse items-end gap-3 z-50 transition-transform duration-300 pointer-events-auto">
+    <button onclick="toggleChat()" class="w-14 h-14 bg-slate-900 rounded-2xl shadow-xl shadow-slate-900/30 text-white flex items-center justify-center has-ripple active:scale-90 transition-transform">
+        <i class="fa-solid fa-comment-dots text-xl"></i>
+    </button>
+    <button id="add-fish-fab" onclick="requireAuth(openFishModal)" class="hidden w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl shadow-lg shadow-blue-500/40 text-white text-xl flex items-center justify-center has-ripple active:scale-90 transition-transform">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+</div>
+
+<main id="chat-container" class="fixed inset-0 z-[150] hidden flex-col bg-gradient-to-b from-[#0f172a] to-[#1e293b] font-['Hind_Siliguri',_sans-serif] transition-all duration-500 transform translate-y-full pointer-events-auto">
+    <header class="p-[15px_20px] bg-[#1e293b]/95 backdrop-blur-[10px] border-b border-white/10 flex items-center justify-between shrink-0 z-50 shadow-[0_5px_20px_rgba(0,0,0,0.2)] rounded-b-[24px]">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-md">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+            <div>
+                <h2 class="text-lg font-bold text-white leading-none">AquaBot</h2>
+                <div class="flex items-center gap-1 mt-1">
+                    <span class="w-2 h-2 bg-green-500 rounded-2xl animate-pulse"></span>
+                    <span class="text-xs text-gray-300">Online</span>
+                </div>
+            </div>
+        </div>
+        <button onclick="toggleChat()" class="w-8 h-8 rounded-2xl bg-white/10 text-white flex items-center justify-center hover:bg-red-500/20 active:scale-90 transition-all">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </header>
+
+    <div id="chat-messages" class="flex-1 overflow-y-auto p-5 flex flex-col gap-[15px] pb-2.5 scroll-smooth hide-scroll">
+    </div>
+    
+    <div id="chat-suggestions" class="flex gap-2 p-[10px_15px] overflow-x-auto whitespace-nowrap shrink-0 bg-transparent hide-scroll">
+        <button onclick="sendSuggestion('Ph Control')" class="suggestion-chip">Ph Control</button>
+        <button onclick="sendSuggestion('Temperature')" class="suggestion-chip">Temperature</button>
+        <button onclick="sendSuggestion('Add Fish')" class="suggestion-chip">Add Fish</button>
+    </div>
+    
+    <div class="relative w-full p-[15px] bg-[#0f172a]/98 backdrop-blur-[10px] border-t border-white/10 flex gap-2.5 items-center z-[100] shrink-0 shadow-[0_-5px_25px_rgba(0,0,0,0.2)] rounded-t-[24px]">
+        <input type="text" id="chat-input" placeholder="Message..." autocomplete="off" class="flex-1 bg-[#1e293b]/60 border border-white/10 text-white px-5 py-3 rounded-[50px] outline-none text-base transition-all duration-300 focus:border-blue-500 focus:bg-[#1e293b]/90">
+        <button onclick="sendMessage()" class="w-[45px] h-[45px] rounded-full border-none flex items-center justify-center cursor-pointer text-[1.2rem] text-white bg-blue-600 transition-all duration-200 active:scale-90 shrink-0">
+            <i class="fa-solid fa-paper-plane"></i>
+        </button>
+    </div>
+</main>
+
+    <script type="module"> 
+    
+     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue, set, get, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyB8XmbJmsIMttA-FYlvP9ygRlW59WBUo50",
+          authDomain: "smart-fish-breeder.firebaseapp.com",
+          databaseURL: "https://smart-fish-breeder-default-rtdb.firebaseio.com",
+          projectId: "smart-fish-breeder",
+          storageBucket: "smart-fish-breeder.firebasestorage.app",
+          messagingSenderId: "772950657962",
+          appId: "1:772950657962:web:02fde1c3010e7c467979d3"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        let currentUser = null;
+        let isLoginMode = true;
+        let offlineTimer;
+        let lastPing = null;
+        let isDeviceOnline = false;
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) {
+                closeAuthModal();
+                const name = user.displayName || user.email.split('@')[0];
+                const photo = user.photoURL || `https://ui-avatars.com/api/?name=${name}&background=eff6ff&color=3b82f6`;
+                document.getElementById('header-profile-img').src = photo;
+                document.getElementById('modal-profile-img').src = photo;
+                document.getElementById('modal-profile-name').innerText = name;
+                document.getElementById('modal-profile-email').innerText = user.email;
+            } else {
+                document.getElementById('header-profile-img').src = "https://ui-avatars.com/api/?name=Guest&background=e2e8f0&color=64748b";
+            }
+        });
+
+        window.requireAuth = function(actionCallback) {
+            if (currentUser) {
+                actionCallback();
+            } else {
+                openAuthModal();
+            }
+        };
+
+        window.openAuthModal = function() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+            document.getElementById('auth-modal').classList.add('flex');
+        };
+
+        window.closeAuthModal = function() {
+            document.getElementById('auth-modal').classList.add('hidden');
+            document.getElementById('auth-modal').classList.remove('flex');
+        };
+
+        window.toggleAuthMode = function() {
+            isLoginMode = !isLoginMode;
+            if(isLoginMode) {
+                document.getElementById('auth-title').innerText = "Welcome Back";
+                document.getElementById('auth-subtitle').innerText = "Please login to control devices";
+                document.getElementById('auth-action-btn').innerText = "Sign In";
+                document.getElementById('auth-toggle-text').innerText = "Don't have an account?";
+            } else {
+                document.getElementById('auth-title').innerText = "Create Account";
+                document.getElementById('auth-subtitle').innerText = "Sign up to join the system";
+                document.getElementById('auth-action-btn').innerText = "Sign Up";
+                document.getElementById('auth-toggle-text').innerText = "Already have an account?";
+            }
+        };
+
+        window.handleGoogleAuth = function() {
+    showLoading();
+    signInWithPopup(auth, provider).then(() => {
+        hideLoading();
+        showAlert("Success", "Logged in successfully!", "success");
+    }).catch(error => {
+        hideLoading();
+        if(error.code === 'auth/account-exists-with-different-credential') {
+            showAlert("Account Exists", "This email is linked to another login method. Please use that.", "error");
+        } else {
+            showAlert("Login Failed", "Google authentication failed.", "error");
+        }
+    });
+};
+
+window.handleEmailAuth = function() {
+    const email = document.getElementById('auth-email').value.trim();
+    const pass = document.getElementById('auth-password').value.trim();
+    
+    if(!email || !pass) {
+        showAlert("Invalid Input", "Please fill in all fields.", "error");
+        return;
+    }
+    
+    showLoading();
+    
+    if(isLoginMode) {
+        signInWithEmailAndPassword(auth, email, pass).then(() => {
+            hideLoading();
+            showAlert("Welcome", "Signed in successfully!", "success");
+        }).catch(error => {
+            hideLoading();
+            showAlert("Auth Error", "Invalid email or password.", "error");
+        });
+    } else {
+        createUserWithEmailAndPassword(auth, email, pass).then(() => {
+            hideLoading();
+            showAlert("Created", "Account created successfully!", "success");
+        }).catch(error => {
+            hideLoading();
+            if(error.code === 'auth/email-already-in-use') {
+                showAlert("Error", "Email already registered. Try logging in.", "error");
+            } else {
+                showAlert("Error", "Could not create account.", "error");
+            }
+        });
+    }
+};
+
+window.toggleAuthMode = function() {
+    isLoginMode = !isLoginMode;
+    const title = document.getElementById('auth-title');
+    const subtitle = document.getElementById('auth-subtitle');
+    const btn = document.getElementById('auth-action-btn');
+    const toggleText = document.getElementById('auth-toggle-text');
+    const toggleLink = toggleText.nextElementSibling;
+
+    if(isLoginMode) {
+        title.innerText = "Welcome";
+        subtitle.innerText = "Sign in to continue";
+        btn.innerText = "Sign In";
+        toggleText.innerText = "New here?";
+        toggleLink.innerText = "Create Account";
+    } else {
+        title.innerText = "Join Us";
+        subtitle.innerText = "Create your account today";
+        btn.innerText = "Sign Up";
+        toggleText.innerText = "Have an account?";
+        toggleLink.innerText = "Sign In";
+    }
+};
+
+window.handleEmailAuth = function() {
+    const email = document.getElementById('auth-email').value.trim();
+    const pass = document.getElementById('auth-password').value.trim();
+    
+    if(!email || !pass) {
+        showAlert("Missing Info", "Please enter both email and password.", "error");
+        return;
+    }
+    
+    showLoading();
+    
+    if(isLoginMode) {
+        signInWithEmailAndPassword(auth, email, pass).then(() => {
+            hideLoading();
+            showAlert("Welcome Back", "Logged in successfully!", "success");
+        }).catch(error => {
+            hideLoading();
+            showAlert("Login Failed", "Invalid Email or Password. Please check again.", "error");
+        });
+    } else {
+        createUserWithEmailAndPassword(auth, email, pass).then(() => {
+            hideLoading();
+            showAlert("Account Created", "Welcome to Smart Fish Breeder!", "success");
+        }).catch(error => {
+            hideLoading();
+            if(error.code === 'auth/email-already-in-use') {
+                showAlert("Signup Failed", "Email already in use. Please login.", "error");
+            } else if(error.code === 'auth/weak-password') {
+                showAlert("Weak Password", "Password must be at least 6 characters.", "error");
+            } else {
+                showAlert("Signup Failed", error.message, "error");
+            }
+        });
+    }
+};
+
+window.handleEmailAuth = function() {
+    const email = document.getElementById('auth-email').value;
+    const pass = document.getElementById('auth-password').value;
+    
+    if(!email || !pass) {
+        showAlert("Missing Info", "Please enter both email and password.", "error");
+        return;
+    }
+    
+    showLoading();
+    
+    if(isLoginMode) {
+        signInWithEmailAndPassword(auth, email, pass).then(() => {
+            hideLoading();
+            showAlert("Welcome Back", "Logged in successfully!", "success");
+        }).catch(error => {
+            hideLoading();
+            showAlert("Login Failed", "Invalid email or password.", "error");
+        });
+    } else {
+        createUserWithEmailAndPassword(auth, email, pass).then(() => {
+            hideLoading();
+            showAlert("Account Created", "Welcome to Smart Fish Breeder!", "success");
+        }).catch(error => {
+            hideLoading();
+            if(error.code === 'auth/email-already-in-use') {
+                showAlert("Signup Failed", "This email is already registered.", "error");
+            } else if(error.code === 'auth/weak-password') {
+                showAlert("Weak Password", "Password should be at least 6 characters.", "error");
+            } else {
+                showAlert("Signup Failed", "Could not create account.", "error");
+            }
+        });
+    }
+};
+
+        window.handleEmailAuth = function() {
+            const email = document.getElementById('auth-email').value;
+            const pass = document.getElementById('auth-password').value;
+            if(!email || !pass) return alert("Please fill all fields");
+            if(isLoginMode) {
+                signInWithEmailAndPassword(auth, email, pass).catch(error => alert(error.message));
+            } else {
+                createUserWithEmailAndPassword(auth, email, pass).catch(error => alert(error.message));
+            }
+        };
+
+        window.checkProfile = function() {
+            if(currentUser) {
+                document.getElementById('profile-modal').classList.remove('hidden');
+                document.getElementById('profile-modal').classList.add('flex');
+            } else {
+                openAuthModal();
+            }
+        };
+
+        window.closeProfileModal = function() {
+            document.getElementById('profile-modal').classList.add('hidden');
+            document.getElementById('profile-modal').classList.remove('flex');
+        };
+
+        window.logoutUser = function() {
+            signOut(auth).then(() => {
+                closeProfileModal();
+            });
+        };
+
+        let localState = {
+            temp: 0,
+            ph: 0,
+            fishMode: 0
+        };
+
+        let relayStates = {
+            REL_ACID_PUMP: false, REL_ALKALI_PUMP: false, REL_COOLER_FAN: false, REL_WATER_HEATER: false,
+            REL_AIR_PUMP: false, REL_WATER_FLOW: false, REL_RAIN_PUMP: false, REL_LIGHT_CTRL: false
+        };
+
+        const relayKeys = [
+            "REL_ACID_PUMP", "REL_ALKALI_PUMP", "REL_COOLER_FAN", "REL_WATER_HEATER",
+            "REL_AIR_PUMP", "REL_WATER_FLOW", "REL_RAIN_PUMP", "REL_LIGHT_CTRL"
+        ];
+
+        let dbFishes = [];
+        let showAllFishes = false;
+        let isCamVisible = false;
+        let camPan = 90;
+        let camTilt = 90;
+
+        const fishColors = ['text-red-500', 'text-orange-500', 'text-amber-500', 'text-emerald-500', 'text-teal-500', 'text-cyan-500', 'text-blue-500', 'text-indigo-500', 'text-violet-500', 'text-purple-500', 'text-fuchsia-500', 'text-rose-500'];
+
+        const defaultFishes = [
+            { id: 0, name: 'Manual', icon: 'fa-hand', color: 'text-slate-400' },
+            { id: 1, name: 'Gold Fish', icon: 'fa-fish', color: 'text-orange-400', phMin: 6.5, phMax: 7.5, tempMin: 22, tempMax: 26, flow: true, rain: false },
+            { id: 2, name: 'Comet', icon: 'fa-fish', color: 'text-red-400', phMin: 6.0, phMax: 7.5, tempMin: 20, tempMax: 25, flow: true, rain: false },
+            { id: 3, name: 'Rohu', icon: 'fa-fish', color: 'text-indigo-400', phMin: 6.5, phMax: 8.0, tempMin: 25, tempMax: 30, flow: false, rain: true }
+        ];
+
+        const relaysMeta = [
+            { id: "REL_ACID_PUMP", name: "Acid Pump", icon: "fa-flask", color: "from-rose-400 to-red-500", activeBg: "bg-rose-50 border-rose-200" },
+            { id: "REL_ALKALI_PUMP", name: "Alkali Pump", icon: "fa-flask", color: "from-blue-400 to-indigo-500", activeBg: "bg-blue-50 border-blue-200" },
+            { id: "REL_COOLER_FAN", name: "Cooler Fan", icon: "fa-fan", color: "from-cyan-400 to-blue-500", activeBg: "bg-cyan-50 border-cyan-200" },
+            { id: "REL_WATER_HEATER", name: "Water Heater", icon: "fa-fire", color: "from-orange-400 to-red-500", activeBg: "bg-orange-50 border-orange-200" },
+            { id: "REL_AIR_PUMP", name: "Air Pump", icon: "fa-wind", color: "from-emerald-400 to-teal-500", activeBg: "bg-emerald-50 border-emerald-200" },
+            { id: "REL_WATER_FLOW", name: "Water Flow", icon: "fa-water", color: "from-blue-500 to-blue-700", activeBg: "bg-blue-50 border-blue-200" },
+            { id: "REL_RAIN_PUMP", name: "Rain Pump", icon: "fa-cloud-rain", color: "from-indigo-400 to-purple-500", activeBg: "bg-indigo-50 border-indigo-200" },
+            { id: "REL_LIGHT_CTRL", name: "UV Light", icon: "fa-lightbulb", color: "from-amber-400 to-orange-500", activeBg: "bg-amber-50 border-amber-200" }
+        ];
+
+        window.dismissOfflineModal = function() {
+    const modal = document.getElementById('offline-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+
+function setOfflineState() {
+    isDeviceOnline = false;
+    const modal = document.getElementById('offline-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.getElementById('system-status-dot').classList.remove('bg-green-500', 'animate-pulse');
+    document.getElementById('system-status-dot').classList.add('bg-red-500');
+    document.getElementById('system-status-text').innerText = "Offline";
+    document.getElementById('system-status-text').classList.remove('text-slate-500');
+    document.getElementById('system-status-text').classList.add('text-red-500');
+}
+
+function setOnlineState() {
+    isDeviceOnline = true;
+    const modal = document.getElementById('offline-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.getElementById('system-status-dot').classList.remove('bg-red-500');
+    document.getElementById('system-status-dot').classList.add('bg-green-500', 'animate-pulse');
+    document.getElementById('system-status-text').innerText = "Online";
+    document.getElementById('system-status-text').classList.remove('text-red-500');
+    document.getElementById('system-status-text').classList.add('text-slate-500');
+}
+
+
+        onValue(ref(db, 'ping'), (snapshot) => {
+            const currentPing = snapshot.val();
+            if(currentPing !== lastPing) {
+                lastPing = currentPing;
+                setOnlineState();
+                clearTimeout(offlineTimer);
+                offlineTimer = setTimeout(() => {
+                    setOfflineState();
+                }, 5000);
+            }
+        });
+
+                window.saveWifiConfig = function() {
+    const ssid = document.getElementById('wifi-ssid').value;
+    const pass = document.getElementById('wifi-pass').value;
+    
+    if (!ssid) {
+        showAlert("Invalid Input", "Please enter a valid WiFi Name.", "error");
+        return;
+    }
+    
+    showLoading();
+    set(ref(db, 'newWifi'), { ssid: ssid, pass: pass }).then(() => {
+        hideLoading();
+        showAlert("Successful", "WiFi credentials sent! Device is rebooting.", "success");
+        document.getElementById('wifi-ssid').value = '';
+        document.getElementById('wifi-pass').value = '';
+    }).catch(() => {
+        hideLoading();
+        showAlert("Error", "Failed to send WiFi details.", "error");
+    });
+}
+        relayKeys.forEach(key => {
+            onValue(ref(db, key), (snapshot) => {
+                relayStates[key] = snapshot.val() || false;
+                updateRelayVisuals();
+            });
+        });
+
+        onValue(ref(db, 'temp'), (snapshot) => {
+            localState.temp = snapshot.val() || 0;
+            updateSensorUI();
+        });
+
+        onValue(ref(db, 'ph'), (snapshot) => {
+            localState.ph = snapshot.val() || 0;
+            updateSensorUI();
+        });
+
+        onValue(ref(db, 'fishMode'), (snapshot) => {
+            localState.fishMode = snapshot.val() || 0;
+            updateCurrentModeUI();
+            renderHomeFishes();
+        });
+
+        onValue(ref(db, 'fishes'), (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                dbFishes = data;
+            } else {
+                dbFishes = defaultFishes;
+                set(ref(db, 'fishes'), dbFishes);
+            }
+            renderHomeFishes();
+            updateCurrentModeUI();
+            renderDbFishes();
+        });
+
+        onValue(ref(db, 'camera'), (snapshot) => {
+            const data = snapshot.val();
+            if(data) {
+                if(data.pan !== undefined) camPan = data.pan;
+                if(data.tilt !== undefined) camTilt = data.tilt;
+                if(data.streamUrl) {
+                    document.getElementById('cam-stream').src = data.streamUrl;
+                }
+            }
+        });
+        
+        onValue(ref(db, 'savedWifiConfig'), (snapshot) => {
+    const data = snapshot.val();
+    if(data) {
+        document.getElementById('wifi-ssid').value = data.ssid || '';
+        document.getElementById('wifi-pass').value = data.pass || '';
+        checkPassLength();
+    }
+});
+
+        function updateSensorUI() {
+            document.getElementById('display-temp').innerText = localState.temp.toFixed(1);
+            const tempStatus = document.getElementById('display-temp-status');
+            if(localState.temp > 33) { tempStatus.innerText = "Hot"; }
+            else if (localState.temp < 24) { tempStatus.innerText = "Cold"; }
+            else { tempStatus.innerText = "Optimal"; }
+
+            document.getElementById('display-ph').innerText = localState.ph.toFixed(2);
+            const phStatus = document.getElementById('display-ph-status');
+            if(localState.ph < 6) { phStatus.innerText = "Acidic"; }
+            else if (localState.ph > 8.5) { phStatus.innerText = "Alkaline"; }
+            else { phStatus.innerText = "Optimal"; }
+        }
+
+        window.renderHomeFishes = function() {
+            const grid = document.getElementById('fish-grid');
+            if(!grid) return;
+            grid.innerHTML = '';
+            const limit = showAllFishes ? dbFishes.length : 8;
+            
+            for(let i = 0; i < limit; i++) {
+                if(!dbFishes[i]) continue;
+                const fish = dbFishes[i];
+                const isActive = fish.id === localState.fishMode;
+                
+                const cardClasses = isActive 
+                    ? 'bg-blue-50 border-blue-200 shadow-lg transform -translate-y-1' 
+                    : 'bg-white border-slate-100 shadow-sm hover:shadow-md';
+                    
+                const iconBgClasses = isActive 
+                    ? 'bg-gradient-to-br from-blue-400 to-indigo-500 text-white shadow-md' 
+                    : 'bg-slate-50 text-slate-400 shadow-sm';
+                    
+                const iconColor = isActive ? 'text-white' : (fish.color || 'text-slate-400');
+                const textColor = isActive ? 'text-blue-800' : 'text-slate-600';
+                const fIcon = fish.icon || 'fa-fish';
+                
+                const html = `
+                    <div onclick="requireAuth(() => selectHomeFish(${fish.id}))" class="has-ripple smooth-transition rounded-[1.25rem] p-3 border relative overflow-hidden cursor-pointer active:scale-95 ${cardClasses}">
+                        <div class="flex flex-col items-center justify-center gap-2 relative z-10 pointer-events-none">
+                            <div class="smooth-transition w-11 h-11 rounded-2xl flex items-center justify-center ${iconBgClasses}">
+                                <i class="fa-solid ${fIcon} ${iconColor} text-base smooth-transition"></i>
+                            </div>
+                            <span class="text-[11px] font-bold ${textColor} text-center leading-tight smooth-transition">${fish.name}</span>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += html;
+            }
+            
+            const btn = document.getElementById('toggle-fish-btn');
+            if(btn) {
+                if(dbFishes.length > 8) {
+                    btn.classList.remove('hidden');
+                    btn.innerText = showAllFishes ? 'Hide List' : 'See More';
+                } else {
+                    btn.classList.add('hidden');
+                }
+            }
+        }
+
+        window.toggleFishList = function() {
+            showAllFishes = !showAllFishes;
+            renderHomeFishes();
+        }
+
+                window.selectHomeFish = function(id) {
+    if (!isDeviceOnline) {
+        showAlert("Action Denied", "Device is offline.", "error");
+        return;
+    }
+    showLoading();
+    const fish = dbFishes.find(f => f.id === id);
+}
+window.saveFishData = function() {
+    const name = document.getElementById('input-fish-name').value;
+    const phMin = parseFloat(document.getElementById('input-ph-min').value);
+    const phMax = parseFloat(document.getElementById('input-ph-max').value);
+    const tempMin = parseFloat(document.getElementById('input-temp-min').value);
+    const tempMax = parseFloat(document.getElementById('input-temp-max').value);
+    
+    if (!name) return;
+    
+    let updatedFishes = [...dbFishes];
+    let updates = {};
+    
+    if (editId) {
+        const idx = updatedFishes.findIndex(x => x.id === editId);
+        const existingColor = updatedFishes[idx].color;
+        const existingIcon = updatedFishes[idx].icon;
+        updatedFishes[idx] = { id: editId, name, icon: existingIcon, phMin, phMax, tempMin, tempMax, flow: inputFlowVal, rain: inputRainVal, color: existingColor };
+        
+        if (editId === localState.fishMode) {
+            updates['/targetPhMin'] = phMin || 0;
+            updates['/targetPhMax'] = phMax || 0;
+            updates['/targetTempMin'] = tempMin || 0;
+            updates['/targetTempMax'] = tempMax || 0;
+            updates['/REL_WATER_FLOW'] = inputFlowVal || false;
+            updates['/REL_RAIN_PUMP'] = inputRainVal || false;
+            updates['/currentFishName'] = name;
+        }
+    } else {
+        const newId = updatedFishes.length ? Math.max(...updatedFishes.map(x => x.id)) + 1 : 1;
+        const randomColor = fishColors[Math.floor(Math.random() * fishColors.length)];
+        updatedFishes.push({ id: newId, name, icon: 'fa-fish', phMin, phMax, tempMin, tempMax, flow: inputFlowVal, rain: inputRainVal, color: randomColor });
+        updates['/lastAddedFish'] = name;
+    }
+    
+    updates['/fishes'] = updatedFishes;
+    
+    update(ref(db), updates).then(() => {
+        if (!editId) {
+            setTimeout(() => { set(ref(db, 'lastAddedFish'), ""); }, 6000);
+        }
+        document.getElementById('search-fish-input').value = '';
+        closeFishModal();
+    });
+}
+        function updateCurrentModeUI() {
+            const fish = dbFishes.find(f => f.id === localState.fishMode) || dbFishes[0];
+            if(fish) {
+                document.getElementById('current-mode-text').innerText = fish.name + ' Mode';
+                const modeIcon = document.getElementById('current-mode-icon');
+                modeIcon.className = `fa-solid ${fish.icon || 'fa-fish'} text-xl smooth-transition ${fish.color || 'text-slate-400'}`;
+            }
+        }
+        
+        window.toggleCamera = function() {
+            isCamVisible = !isCamVisible;
+            const container = document.getElementById('camera-container');
+            const btn = document.getElementById('toggle-cam-btn');
+            if(isCamVisible) {
+                container.classList.remove('hidden');
+                setTimeout(() => {
+                    container.classList.remove('opacity-0', 'scale-95');
+                    container.classList.add('opacity-100', 'scale-100');
+                }, 10);
+                btn.innerText = 'Hide';
+                btn.classList.add('bg-teal-50', 'text-teal-600', 'border', 'border-teal-100');
+                btn.classList.remove('bg-slate-100', 'text-slate-600');
+            } else {
+                container.classList.add('opacity-0', 'scale-95');
+                container.classList.remove('opacity-100', 'scale-100');
+                setTimeout(() => {
+                    container.classList.add('hidden');
+                }, 300);
+                btn.innerText = 'Show';
+                btn.classList.remove('bg-teal-50', 'text-teal-600', 'border', 'border-teal-100');
+                btn.classList.add('bg-slate-100', 'text-slate-600');
+            }
+        }
+        
+        window.moveCamServo = function(axis, step) {
+            if(axis === 'pan') {
+                camPan += step;
+                if(camPan > 180) camPan = 180;
+                if(camPan < 0) camPan = 0;
+                set(ref(db, 'camera/pan'), camPan);
+            } else {
+                camTilt += step;
+                if(camTilt > 180) camTilt = 180;
+                if(camTilt < 0) camTilt = 0;
+                set(ref(db, 'camera/tilt'), camTilt);
+            }
+        }
+
+        window.initRelays = function() {
+            const container = document.getElementById('relay-container');
+            if(!container) return;
+            container.innerHTML = ''; 
+            relaysMeta.forEach((relay) => {
+                const html = `
+                    <div id="card-${relay.id}" class="has-ripple smooth-transition bg-white rounded-[1.25rem] p-4 shadow-sm border border-slate-100 relative overflow-hidden cursor-pointer hover:shadow-md active:scale-95" onclick="requireAuth(() => toggleRelay('${relay.id}'))">
+                        <div class="flex justify-between items-start z-10 relative pointer-events-none">
+                            <div id="icon-bg-${relay.id}" class="smooth-transition w-11 h-11 rounded-2xl bg-slate-50 flex items-center justify-center shadow-sm">
+                                <i id="icon-${relay.id}" class="fa-solid ${relay.icon} text-base text-slate-400 smooth-transition"></i>
+                            </div>
+                            <div class="relative inline-block w-10 align-middle select-none">
+                                <div class="w-10 h-5 bg-slate-200 rounded-full shadow-inner smooth-transition" id="track-${relay.id}"></div>
+                                <div class="toggle-switch absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-md" id="knob-${relay.id}"></div>
+                            </div>
+                        </div>
+                        <div class="mt-4 relative z-10 pointer-events-none">
+                            <h3 id="title-${relay.id}" class="font-bold text-slate-600 text-sm mb-1 smooth-transition">${relay.name}</h3>
+                            <p id="status-${relay.id}" class="text-[10px] font-bold tracking-wider text-slate-400 smooth-transition">OFF</p>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
+            updateRelayVisuals();
+        }
+
+        function updateRelayVisuals() {
+            relaysMeta.forEach((relay) => {
+                const isOn = relayStates[relay.id];
+                const card = document.getElementById(`card-${relay.id}`);
+                if(!card) return;
+                const iconBg = document.getElementById(`icon-bg-${relay.id}`);
+                const icon = document.getElementById(`icon-${relay.id}`);
+                const track = document.getElementById(`track-${relay.id}`);
+                const knob = document.getElementById(`knob-${relay.id}`);
+                const title = document.getElementById(`title-${relay.id}`);
+                const status = document.getElementById(`status-${relay.id}`);
+
+                if (isOn) {
+                    card.className = `has-ripple smooth-transition rounded-[1.25rem] p-4 shadow-md border relative overflow-hidden cursor-pointer hover:shadow-lg active:scale-95 ${relay.activeBg}`;
+                    iconBg.className = `smooth-transition w-11 h-11 rounded-2xl bg-gradient-to-br ${relay.color} flex items-center justify-center shadow-md text-white`;
+                    icon.className = `fa-solid ${relay.icon} text-base text-white smooth-transition`;
+                    track.className = "w-10 h-5 bg-blue-500 rounded-full shadow-inner smooth-transition";
+                    knob.style.transform = "translateX(20px)";
+                    title.className = "font-bold text-slate-800 text-sm mb-1 smooth-transition";
+                    status.innerText = "ACTIVE";
+                    status.className = "text-[10px] font-bold tracking-wider text-blue-600 smooth-transition";
+                } else {
+                    card.className = "has-ripple smooth-transition bg-white rounded-[1.25rem] p-4 shadow-sm border border-slate-100 relative overflow-hidden cursor-pointer hover:shadow-md active:scale-95";
+                    iconBg.className = "smooth-transition w-11 h-11 rounded-2xl bg-slate-50 flex items-center justify-center shadow-sm";
+                    icon.className = `fa-solid ${relay.icon} text-base text-slate-400 smooth-transition`;
+                    track.className = "w-10 h-5 bg-slate-200 rounded-full shadow-inner smooth-transition";
+                    knob.style.transform = "translateX(0px)";
+                    title.className = "font-bold text-slate-600 text-sm mb-1 smooth-transition";
+                    status.innerText = "OFF";
+                    status.className = "text-[10px] font-bold tracking-wider text-slate-400 smooth-transition";
+                }
+            });
+        }
+
+        window.toggleRelay = function(id) {
+    if (!isDeviceOnline) {
+        showAlert("Action Denied", "Device is offline.", "error");
+        return;
+    }
+    showLoading();
+    set(ref(db, id), !relayStates[id]).then(() => {
+        setTimeout(hideLoading, 300);
+    });
+}
+
+
+        window.renderDbFishes = function(fishesToRender = dbFishes) {
+            const list = document.getElementById('custom-fish-list');
+            if(!list) return;
+            list.innerHTML = '';
+            
+            const realFishes = fishesToRender.filter(f => f.id !== 0);
+            
+            if(realFishes.length === 0) {
+                list.innerHTML = `<div class="text-center py-10 opacity-50"><i class="fa-solid fa-fish text-4xl mb-3"></i><p>No fish data found</p></div>`;
+                return;
+            }
+
+            realFishes.forEach(f => {
+                const flowIcon = f.flow ? '<i class="fa-solid fa-water text-blue-500"></i>' : '<i class="fa-solid fa-water text-slate-300"></i>';
+                const rainIcon = f.rain ? '<i class="fa-solid fa-cloud-rain text-indigo-500"></i>' : '<i class="fa-solid fa-cloud-rain text-slate-300"></i>';
+                const fIcon = f.icon || 'fa-fish';
+                
+                const html = `
+                <div class="bg-white rounded-[1.5rem] p-5 border border-slate-100 shadow-sm flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-[1.25rem] bg-slate-50 flex items-center justify-center flex-shrink-0 shadow-inner">
+                        <i class="fa-solid ${fIcon} ${f.color} text-2xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-slate-800 text-lg mb-1.5">${f.name}</h3>
+                        <div class="flex gap-2 mb-2.5">
+                            <span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-lg text-[10px] font-bold tracking-wide border border-blue-100">pH ${f.phMin || 0}-${f.phMax || 0}</span>
+                            <span class="bg-rose-50 text-rose-600 px-2 py-0.5 rounded-lg text-[10px] font-bold tracking-wide border border-rose-100">${f.tempMin || 0}-${f.tempMax || 0}°C</span>
+                        </div>
+                        <div class="flex gap-3 text-base">
+                            ${flowIcon}
+                            ${rainIcon}
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <button onclick="requireAuth(() => editFish(${f.id}))" class="w-10 h-10 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center active:scale-90 transition-all">
+                            <i class="fa-solid fa-pen text-sm"></i>
+                        </button>
+                        <button onclick="requireAuth(() => reqDeleteFish(${f.id}))" class="w-10 h-10 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center active:scale-90 transition-all">
+                            <i class="fa-solid fa-trash text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+                `;
+                list.innerHTML += html;
+            });
+        }
+
+        window.searchFishData = function() {
+            const query = document.getElementById('search-fish-input').value.toLowerCase();
+            const filteredFishes = dbFishes.filter(fish => fish.name.toLowerCase().includes(query));
+            renderDbFishes(filteredFishes);
+        }
+
+        let editId = null;
+        let deleteId = null;
+        let inputFlowVal = false;
+        let inputRainVal = false;
+
+        window.toggleInput = function(type) {
+            if(type === 'flow') {
+                inputFlowVal = !inputFlowVal;
+                document.getElementById('track-input-flow').className = inputFlowVal ? "w-12 h-6 bg-blue-500 rounded-full shadow-inner smooth-transition" : "w-12 h-6 bg-slate-200 rounded-full shadow-inner smooth-transition";
+                document.getElementById('knob-input-flow').style.transform = inputFlowVal ? "translateX(24px)" : "translateX(0px)";
+            } else {
+                inputRainVal = !inputRainVal;
+                document.getElementById('track-input-rain').className = inputRainVal ? "w-12 h-6 bg-indigo-500 rounded-full shadow-inner smooth-transition" : "w-12 h-6 bg-slate-200 rounded-full shadow-inner smooth-transition";
+                document.getElementById('knob-input-rain').style.transform = inputRainVal ? "translateX(24px)" : "translateX(0px)";
+            }
+        }
+
+        function setInputToggles(flow, rain) {
+            inputFlowVal = !flow; toggleInput('flow');
+            inputRainVal = !rain; toggleInput('rain');
+        }
+
+        window.openFishModal = function() {
+            editId = null;
+            document.getElementById('modal-title').innerText = 'Add New Fish';
+            document.getElementById('input-fish-name').value = '';
+            document.getElementById('input-ph-min').value = '';
+            document.getElementById('input-ph-max').value = '';
+            document.getElementById('input-temp-min').value = '';
+            document.getElementById('input-temp-max').value = '';
+            setInputToggles(false, false);
+            
+            document.getElementById('fish-modal').classList.remove('hidden');
+            document.getElementById('fish-modal').classList.add('flex');
+        }
+
+        window.closeFishModal = function() {
+            document.getElementById('fish-modal').classList.add('hidden');
+            document.getElementById('fish-modal').classList.remove('flex');
+        }
+
+        window.editFish = function(id) {
+            editId = id;
+            const f = dbFishes.find(x => x.id === id);
+            document.getElementById('modal-title').innerText = 'Edit Fish';
+            document.getElementById('input-fish-name').value = f.name;
+            document.getElementById('input-ph-min').value = f.phMin || '';
+            document.getElementById('input-ph-max').value = f.phMax || '';
+            document.getElementById('input-temp-min').value = f.tempMin || '';
+            document.getElementById('input-temp-max').value = f.tempMax || '';
+            setInputToggles(f.flow || false, f.rain || false);
+            
+            document.getElementById('fish-modal').classList.remove('hidden');
+            document.getElementById('fish-modal').classList.add('flex');
+        }
+        window.reqDeleteFish = function(id) {
+            deleteId = id;
+            document.getElementById('delete-modal').classList.remove('hidden');
+            document.getElementById('delete-modal').classList.add('flex');
+        }
+
+        window.closeDeleteModal = function() {
+            deleteId = null;
+            document.getElementById('delete-modal').classList.add('hidden');
+            document.getElementById('delete-modal').classList.remove('flex');
+        }
+
+        window.confirmDelete = function() {
+            if(deleteId) {
+                const updatedFishes = dbFishes.filter(x => x.id !== deleteId);
+                set(ref(db, 'fishes'), updatedFishes);
+                document.getElementById('search-fish-input').value = '';
+            }
+            closeDeleteModal();
+        }
+
+        window.switchPage = function(page) {
+            const pages = ['home-page', 'data-page', 'settings-page'];
+            pages.forEach(p => {
+                const el = document.getElementById(p);
+                el.classList.add('hidden');
+                el.classList.remove('block', 'page-enter');
+            });
+            
+            const activePage = document.getElementById(page);
+            activePage.classList.remove('hidden');
+            activePage.classList.add('block', 'page-enter');
+            
+            setTimeout(() => {
+                activePage.classList.remove('page-enter');
+            }, 400);
+            
+            const header = document.getElementById('main-header');
+            if (page === 'home-page') {
+                header.classList.remove('-translate-y-full', 'opacity-0');
+            } else {
+                header.classList.add('-translate-y-full', 'opacity-0');
+            }
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-blue-600', 'bg-blue-50');
+                btn.classList.add('text-slate-400');
+            });
+            const activeBtn = document.getElementById('nav-' + page);
+            activeBtn.classList.remove('text-slate-400');
+            activeBtn.classList.add('text-blue-600', 'bg-blue-50');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const btn = document.getElementById('install-app-btn');
+            const hint = document.getElementById('install-hint');
+            if(btn && hint) {
+                btn.classList.remove('hidden');
+                hint.classList.add('hidden');
+            }
+        });
+
+        window.installPWA = async function() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    document.getElementById('install-app-btn').classList.add('hidden');
+                    document.getElementById('install-hint').classList.remove('hidden');
+                    document.getElementById('install-hint').innerText = 'Installed Successfully!';
+                }
+                deferredPrompt = null;
+            } else {
+                alert('App is already installed or your browser does not support this feature yet.');
+            }
+        }
+
+        document.addEventListener('click', function (e) {
+            const target = e.target.closest('.has-ripple');
+            if (!target) return;
+            const circle = document.createElement('span');
+            const diameter = Math.max(target.clientWidth, target.clientHeight);
+            const radius = diameter / 2;
+            const rect = target.getBoundingClientRect();
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${e.clientX - rect.left - radius}px`;
+            circle.style.top = `${e.clientY - rect.top - radius}px`;
+            circle.classList.add('ripple-span');
+            const existingRipple = target.querySelector('.ripple-span');
+            if (existingRipple) {
+                existingRipple.remove();
+            }
+            target.appendChild(circle);
+            setTimeout(() => {
+                circle.remove();
+            }, 600);
+        });
+window.chatHistory = [];
+
+const botKnowledge = [
+    { keywords: ["machine", "কি", "what", "about", "project"], answer: "This is a Smart Automatic Fish Breeding Machine.<br>It controls breeding environment using sensors, pump, relay, and mobile app.", chips: ["Start Machine", "Sensor Info", "App Control", "Inventor"] },
+    { keywords: ["inventor", "creator", "naim", "কে বানিয়েছে"], answer: "This project is invented by MD Naim Islam.<br>Started in 2018 and now upgraded to Version 8.", chips: ["Project Version", "Features", "Machine Work"] },
+    { keywords: ["start", "on", "চালু", "run"], answer: "Turn ON power supply.<br>Then press START from app or control panel.<br>Auto mode হলে system নিজে কাজ শুরু করবে।", chips: ["Stop Machine", "Auto Mode", "Manual Mode"] },
+    { keywords: ["stop", "off", "বন্ধ"], answer: "Use STOP button from app/control panel.<br>All pumps and relays will turn OFF.", chips: ["Start Machine", "Safety", "Restart"] },
+    { keywords: ["auto", "automatic"], answer: "Auto mode-এ machine sensor data দেখে নিজে decision নেয়।<br>Temperature, pH অনুযায়ী control করে।", chips: ["Manual Mode", "Sensor Info", "pH Control"] },
+    { keywords: ["manual", "hand", "নিজে"], answer: "Manual mode-এ user নিজে app দিয়ে pump, relay control করতে পারে।", chips: ["Auto Mode", "Pump Control", "App Use"] },
+    { keywords: ["temperature", "temp", "তাপমাত্রা"], answer: "Temperature sensor পানি গরম বা ঠান্ডা monitor করে।<br>Proper temperature fish breeding-এর জন্য খুব important।", chips: ["pH Info", "Sensor Error", "Water Quality"] },
+    { keywords: ["ph", "acid", "alkaline"], answer: "pH sensor পানির acidity/alkalinity measure করে।<br>Correct pH fish breeding-এর জন্য খুব গুরুত্বপূর্ণ।", chips: ["Temperature", "Water Control", "Sensor Error"] },
+    { keywords: ["error", "problem", "not working", "sensor problem"], answer: "Check wiring and power supply.<br>Sensor loose কিনা দেখুন。<br>প্রয়োজনে restart বা calibration করুন।", chips: ["Restart System", "Pump Issue", "Help"] },
+    { keywords: ["pump", "water", "flow"], answer: "Pump পানি circulate করে এবং refill করতে সাহায্য করে।<br>Relay দিয়ে pump control হয়।", chips: ["Relay", "Water Quality", "Start Machine"] },
+    { keywords: ["relay", "switch"], answer: "Relay high power device control করে।<br>Microcontroller signal দিয়ে pump বা heater চালানো হয়।", chips: ["Pump", "Sensor", "Control"] },
+    { keywords: ["app", "mobile", "control"], answer: "Smart Breader app দিয়ে machine monitor, start/stop, sensor data দেখা যায়।", chips: ["Live Data", "Camera", "Auto Mode"] },
+    { keywords: ["data", "live", "status"], answer: "App-এ real-time temperature, pH, system status দেখা যায়।", chips: ["App Control", "Sensor", "Camera"] },
+    { keywords: ["camera", "view", "see fish"], answer: "Camera দিয়ে মাছের অবস্থা live দেখা যায়।<br>App থেকে camera control করা যায়।", chips: ["Live Data", "Fish Condition", "App"] },
+    { keywords: ["breeding", "fish", "মাছ"], answer: "Fish breeding-এর জন্য clean water, correct pH, temperature খুব গুরুত্বপূর্ণ।<br>এই machine environment stable রাখতে সাহায্য করে।", chips: ["Water Quality", "Temperature", "pH"] },
+    { keywords: ["maintenance", "clean", "service"], answer: "নিয়মিত sensor clean, wiring check, pump clean, water change করতে হবে।", chips: ["Safety", "Pump", "Sensor"] },
+    { keywords: ["restart", "power"], answer: "Power supply check করুন।<br>System restart দিন।<br>Problem থাকলে wiring check করুন।", chips: ["Sensor Error", "Pump", "Help"] }
+];
+
+function getBotResponse(input) {
+    let text = input.toLowerCase();
+    for (let item of botKnowledge) {
+        if (item.keywords.some(kw => text.includes(kw.toLowerCase()))) {
+            return { answer: item.answer, chips: item.chips };
+        }
+    }
+    return {
+        answer: "দুঃখিত, আমি শুধু এই machine সম্পর্কিত প্রশ্নের উত্তর দিই।",
+        chips: ["Start Machine", "Sensor Info", "App Control", "Fish Breeding"]
+    };
+}
+
+window.updateChips = function(chips) {
+    const container = document.getElementById('chat-suggestions');
+    if (!container) return;
+    container.innerHTML = '';
+    chips.forEach(chip => {
+        const btn = document.createElement('button');
+        btn.className = 'suggestion-chip';
+        btn.onclick = () => sendSuggestion(chip);
+        btn.innerText = chip;
+        container.appendChild(btn);
+    });
+};
+
+window.toggleChat = function() {
+    const chat = document.getElementById('chat-container');
+    if (!chat) return;
+    
+    if (chat.classList.contains('hidden')) {
+        chat.classList.remove('hidden');
+        chat.classList.add('flex');
+        setTimeout(() => {
+            chat.classList.remove('translate-y-full');
+        }, 10);
+        
+        if (window.chatHistory.length === 0) {
+            showTyping();
+            setTimeout(() => {
+                removeTyping();
+                window.addMessage('bot', 'Assalamu Alaikum! আমি AquaBot। আপনার মাছ চাষে যেকোনো সমস্যায় আমি সাহায্য করতে প্রস্তুত।');
+                window.updateChips(["Start Machine", "Sensor Info", "App Control", "Inventor"]);
+            }, 1000);
+        }
+    } else {
+        chat.classList.add('translate-y-full');
+        setTimeout(() => {
+            chat.classList.add('hidden');
+            chat.classList.remove('flex');
+        }, 500);
+    }
+};
+
+window.addMessage = function(sender, text) {
+    const container = document.getElementById('chat-messages');
+    if (!container) return;
+    
+    const bubble = document.createElement('div');
+    bubble.className = `chat-bubble ${sender}`;
+    bubble.style.fontWeight = "900";
+    bubble.innerHTML = `<b>${text}</b>`;
+    
+    container.appendChild(bubble);
+    container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+    
+    window.chatHistory.push({ sender, text });
+    localStorage.setItem('aquaChatData', JSON.stringify(window.chatHistory));
+};
+
+function showTyping() {
+    const container = document.getElementById('chat-messages');
+    if (!container) return;
+    
+    const typingHtml = `
+        <div id="typing-indicator" class="typing-box" style="display: flex;">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>`;
+    container.insertAdjacentHTML('beforeend', typingHtml);
+    container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+}
+
+function removeTyping() {
+    const indicator = document.getElementById('typing-indicator');
+    if (indicator) indicator.remove();
+}
+
+const botData = [
+    { keys: ["machine", "কি", "what", "about", "project", "মেশিন"], ans: "এটি একটি স্মার্ট অটোমেটিক ফিশ ব্রিডিং মেশিন। এটি সেন্সর, পাম্প, রিলে এবং মোবাইল অ্যাপের সাহায্যে মাছের ব্রিডিং পরিবেশ নিয়ন্ত্রণ করে।", chips: ["Start Machine", "Sensor Info", "App Control", "Inventor"] },
+    { keys: ["inventor", "creator", "naim", "কে বানিয়েছে", "উদ্ভাবক"], ans: "এই প্রজেক্টটি তৈরি করেছেন মোঃ নাইম ইসলাম। এটি ২০১৮ সালে শুরু হয়েছিল এবং বর্তমানে এর ভার্সন ৮ চলছে।", chips: ["Project Version", "Features", "Machine Work"] },
+    { keys: ["start", "on", "চালু", "run"], ans: "প্রথমে পাওয়ার সাপ্লাই অন করুন। তারপর অ্যাপ বা কন্ট্রোল প্যানেল থেকে START বাটনে চাপ দিন। অটো মোডে থাকলে সিস্টেম নিজে থেকেই কাজ শুরু করবে।", chips: ["Stop Machine", "Auto Mode", "Manual Mode"] },
+    { keys: ["stop", "off", "বন্ধ"], ans: "অ্যাপ বা কন্ট্রোল প্যানেল থেকে STOP বাটন ব্যবহার করুন। এতে সব পাম্প এবং রিলে অফ হয়ে যাবে।", chips: ["Start Machine", "Safety", "Restart"] },
+    { keys: ["auto", "automatic", "অটো"], ans: "অটো মোডে মেশিন সেন্সরের ডাটা চেক করে নিজে নিজেই সিদ্ধান্ত নেয়। এটি তাপমাত্রা এবং pH অনুযায়ী সিস্টেম নিয়ন্ত্রণ করে।", chips: ["Manual Mode", "Sensor Info", "pH Control"] },
+    { keys: ["manual", "hand", "নিজে", "ম্যানুয়াল"], ans: "ম্যানুয়াল মোডে আপনি নিজে অ্যাপের মাধ্যমে পাম্প এবং রিলে নিয়ন্ত্রণ করতে পারবেন।", chips: ["Auto Mode", "Pump Control", "App Use"] },
+    { keys: ["temperature", "temp", "তাপমাত্রা"], ans: "টেম্পারেচার সেন্সর পানির গরম বা ঠান্ডা অবস্থা মনিটর করে। মাছের সঠিক ব্রিডিংয়ের জন্য উপযুক্ত তাপমাত্রা খুবই গুরুত্বপূর্ণ।", chips: ["pH Info", "Sensor Error", "Water Quality"] },
+    { keys: ["ph", "acid", "alkaline"], ans: "pH সেন্সর পানির এসিডিটি বা ক্ষারত্ব মাপে। মাছের ব্রিডিংয়ের জন্য সঠিক pH লেভেল থাকা একদম অপরিহার্য।", chips: ["Temperature", "Water Control", "Sensor Error"] },
+    { keys: ["error", "problem", "not working", "sensor problem", "সমস্যা"], ans: "ওয়ারিং এবং পাওয়ার সাপ্লাই চেক করুন। সেন্সর লুজ আছে কিনা দেখুন। প্রয়োজনে সিস্টেম রিস্টার্ট বা ক্যালিব্রেশন করুন।", chips: ["Restart System", "Pump Issue", "Help"] },
+    { keys: ["pump", "water", "flow", "পাম্প"], ans: "পাম্প পানি সার্কুলেট করতে এবং নতুন পানি ভরতে সাহায্য করে। রিলের মাধ্যমে পাম্প কন্ট্রোল করা হয়।", chips: ["Relay", "Water Quality", "Start Machine"] },
+    { keys: ["relay", "switch", "রিলে"], ans: "রিলে হাই-পাওয়ার ডিভাইসগুলো কন্ট্রোল করে। মাইক্রোকন্ট্রোলার থেকে সিগন্যাল পেয়ে এটি পাম্প বা হিটার চালু করে।", chips: ["Pump", "Sensor", "Control"] },
+    { keys: ["app", "mobile", "control", "অ্যাপ"], ans: "স্মার্ট ব্রিডার অ্যাপ দিয়ে আপনি মেশিন মনিটর করতে, স্টার্ট/স্টপ করতে এবং সেন্সরের ডাটা দেখতে পারবেন।", chips: ["Live Data", "Camera", "Auto Mode"] },
+    { keys: ["data", "live", "status", "ডাটা"], ans: "অ্যাপের মধ্যে রিয়েল-টাইম তাপমাত্রা, pH এবং সিস্টেমের বর্তমান অবস্থা দেখা যায়।", chips: ["App Control", "Sensor", "Camera"] },
+    { keys: ["camera", "view", "see fish", "ক্যামেরা"], ans: "ক্যামেরা দিয়ে মাছের বর্তমান অবস্থা সরাসরি দেখা যায়। অ্যাপ থেকেই ক্যামেরা কন্ট্রোল করা সম্ভব।", chips: ["Live Data", "Fish Condition", "App"] },
+    { keys: ["breeding", "fish", "মাছ"], ans: "মাছের ব্রিডিংয়ের জন্য পরিষ্কার পানি, সঠিক pH এবং তাপমাত্রা খুব দরকারি। এই মেশিনটি পরিবেশ একদম ঠিক রাখতে সাহায্য করে।", chips: ["Water Quality", "Temperature", "pH"] },
+    { keys: ["maintenance", "clean", "service", "পরিষ্কার"], ans: "নিয়মিত সেন্সর পরিষ্কার করা, ওয়ারিং চেক করা, পাম্প ক্লিন করা এবং পানি পরিবর্তন করা উচিত।", chips: ["Safety", "Pump", "Sensor"] },
+    { keys: ["restart", "power", "রিস্টার্ট"], ans: "পাওয়ার সাপ্লাই চেক করুন এবং সিস্টেম রিস্টার্ট দিন। কোনো সমস্যা থাকলে ওয়ারিং ঠিক আছে কিনা দেখে নিন।", chips: ["Sensor Error", "Pump", "Help"] }
+];
+
+window.updateSuggestions = function(chips) {
+    const container = document.getElementById('chat-suggestions');
+    if (!container) return;
+    container.innerHTML = '';
+    chips.forEach(chip => {
+        const btn = document.createElement('button');
+        btn.className = 'suggestion-chip';
+        btn.innerText = chip;
+        btn.onclick = () => sendSuggestion(chip);
+        container.appendChild(btn);
+    });
+};
+
+window.getBotResponse = function(text) {
+    const lowerText = text.toLowerCase();
+    for (let item of botData) {
+        for (let key of item.keys) {
+            if (lowerText.includes(key)) {
+                return item;
+            }
+        }
+    }
+    return {
+        ans: "দুঃখিত, আমি শুধু এই ফিশ ব্রিডিং মেশিন সম্পর্কিত প্রশ্নের উত্তর দিই।",
+        chips: ["Start Machine", "Sensor Info", "App Control", "Fish Breeding"]
+    };
+};
+
+window.sendMessage = function() {
+    const input = document.getElementById('chat-input');
+    if (!input) return;
+    
+    const text = input.value.trim();
+    if (!text) return;
+    
+    window.addMessage('user', text);
+    input.value = '';
+    
+    showTyping();
+    
+    const responseObj = window.getBotResponse(text);
+    
+    setTimeout(() => {
+        removeTyping();
+        window.addMessage('bot', responseObj.ans);
+        window.updateSuggestions(responseObj.chips);
+    }, 1000);
+};
+
+window.sendSuggestion = function(text) {
+    const input = document.getElementById('chat-input');
+    if (input) {
+        input.value = text;
+        window.sendMessage();
+    }
+};
+
+
+const chatInput = document.getElementById('chat-input');
+if (chatInput) {
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            window.sendMessage();
+        }
+    });
+}
+
+
+
+window.addEventListener('scroll', () => {
+    const topBtn = document.getElementById('jump-to-top');
+    const actionBtns = document.getElementById('action-buttons');
+    if (window.scrollY > 300) {
+        topBtn.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
+        topBtn.classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
+        actionBtns.style.transform = 'translateY(-72px)'; 
+    } else {
+        topBtn.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
+        topBtn.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+        actionBtns.style.transform = 'translateY(0)';
+    }
+});
+
+window.switchPage = function(page) {
+    const pages = ['home-page', 'data-page', 'settings-page'];
+    pages.forEach(p => {
+        const el = document.getElementById(p);
+        el.classList.add('hidden');
+        el.classList.remove('block', 'page-enter');
+    });
+    const activePage = document.getElementById(page);
+    activePage.classList.remove('hidden');
+    activePage.classList.add('block', 'page-enter');
+    
+    const addFishFab = document.getElementById('add-fish-fab');
+    if (page === 'data-page') { addFishFab.classList.remove('hidden'); }
+    else { addFishFab.classList.add('hidden'); }
+    
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('text-blue-600', 'bg-blue-50');
+        btn.classList.add('text-slate-400');
+    });
+    const activeBtn = document.getElementById('nav-' + page);
+    activeBtn.classList.remove('text-slate-400');
+    activeBtn.classList.add('text-blue-600', 'bg-blue-50');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+
+        window.showAlert = function(title, message, type) {
+            const customAlertModal = document.getElementById('custom-alert-modal');
+            const alertTitle = document.getElementById('alert-title');
+            const alertMessage = document.getElementById('alert-message');
+            const alertIconContainer = document.getElementById('alert-icon-container');
+            const alertIcon = document.getElementById('alert-icon');
+            const alertBtn = document.getElementById('alert-btn');
+
+            alertTitle.innerText = title;
+            alertMessage.innerText = message;
+            
+            alertIcon.className = "fa-solid";
+            alertIconContainer.className = "w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl border";
+            
+            if(type === "error") {
+                alertIcon.classList.add("fa-triangle-exclamation");
+                alertIconContainer.classList.add("bg-orange-50", "text-orange-500", "border-orange-100");
+                alertBtn.className = "has-ripple w-full py-3 rounded-xl bg-gradient-to-r from-orange-400 to-orange-500 text-white font-bold text-sm shadow-md transition-all active:scale-95";
+            } else if(type === "success") {
+                alertIcon.classList.add("fa-check");
+                alertIconContainer.classList.add("bg-green-50", "text-green-500", "border-green-100");
+                alertBtn.className = "has-ripple w-full py-3 rounded-xl bg-gradient-to-r from-green-400 to-green-500 text-white font-bold text-sm shadow-md transition-all active:scale-95";
+            } else {
+                alertIcon.classList.add("fa-circle-info");
+                alertIconContainer.classList.add("bg-blue-50", "text-blue-500", "border-blue-100");
+                alertBtn.className = "has-ripple w-full py-3 rounded-xl bg-gradient-to-r from-blue-400 to-blue-500 text-white font-bold text-sm shadow-md transition-all active:scale-95";
+            }
+            
+            customAlertModal.classList.remove('hidden');
+            customAlertModal.classList.add('flex');
+        }
+
+        window.closeCustomAlert = function() {
+            const customAlertModal = document.getElementById('custom-alert-modal');
+            customAlertModal.classList.add('hidden');
+            customAlertModal.classList.remove('flex');
+        }
+
+        window.showLoading = function() {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            loadingOverlay.classList.remove('hidden');
+            loadingOverlay.classList.add('flex');
+        }
+
+        window.hideLoading = function() {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            loadingOverlay.classList.add('hidden');
+            loadingOverlay.classList.remove('flex');
+        }
+
+        window.checkPassLength = function() {
+    const passInput = document.getElementById('wifi-pass');
+    const errorMsg = document.getElementById('wifi-pass-error');
+    if (passInput.value.length >= 8) {
+        errorMsg.classList.add('hidden');
+        passInput.classList.remove('border-red-400', 'focus:border-red-500', 'focus:ring-red-200');
+        passInput.classList.add('border-slate-200', 'focus:border-blue-500', 'focus:ring-blue-200');
+    }
+}
+
+window.saveWifiConfig = function() {
+    const ssid = document.getElementById('wifi-ssid').value;
+    const passInput = document.getElementById('wifi-pass');
+    const pass = passInput.value;
+    const errorMsg = document.getElementById('wifi-pass-error');
+
+    if(!ssid) {
+        showAlert("Invalid Input", "Please enter a valid WiFi Name.", "error");
+        return;
+    }
+
+    if(pass.length < 8) {
+        errorMsg.classList.remove('hidden');
+        passInput.classList.remove('border-slate-200', 'focus:border-blue-500', 'focus:ring-blue-200');
+        passInput.classList.add('border-red-400', 'focus:border-red-500', 'focus:ring-red-200');
+        return;
+    }
+
+    showLoading();
+    let updates = {};
+    updates['/savedWifiConfig'] = { ssid: ssid, pass: pass };
+    updates['/esp32'] = { ssid: ssid, pass: pass };
+    updates['/espCam'] = { ssid: ssid, pass: pass };
+
+    update(ref(db), updates).then(() => {
+        hideLoading();
+        showAlert("Successful", "WiFi details sent successfully! Devices will reboot.", "success");
+        document.getElementById('wifi-ssid').value = '';
+        passInput.value = '';
+        errorMsg.classList.add('hidden');
+        passInput.classList.remove('border-red-400', 'focus:border-red-500', 'focus:ring-red-200');
+        passInput.classList.add('border-slate-200', 'focus:border-blue-500', 'focus:ring-blue-200');
+    }).catch(() => {
+        hideLoading();
+        showAlert("Error", "Failed to send WiFi details.", "error");
+    });
+}
+
+        window.onload = () => {
+            initRelays();
+            switchPage('home-page');
+        };
+    
+    </script>
+</body>
+</html>        </div>
         <button onclick="requireAuth(() => moveCamServo('tilt', 10))" class="has-ripple w-12 h-12 rounded-full bg-slate-50 text-slate-600 flex items-center justify-center hover:bg-teal-50 hover:text-teal-600 active:scale-90 transition-all shadow-sm">
             <i class="fa-solid fa-chevron-down"></i>
         </button>
