@@ -1174,14 +1174,7 @@ function setOnlineState() {
             renderHomeFishes();
         }
 
-                window.selectHomeFish = function(id) {
-    if (!isDeviceOnline) {
-        showAlert("Action Denied", "Device is offline.", "error");
-        return;
-    }
-    showLoading();
-    const fish = dbFishes.find(f => f.id === id);
-}
+                
 window.saveFishData = function() {
     const name = document.getElementById('input-fish-name').value;
     const phMin = parseFloat(document.getElementById('input-ph-min').value);
@@ -1335,10 +1328,49 @@ window.saveFishData = function() {
             });
         }
 
-        window.toggleRelay = function(id) {
+        window.selectHomeFish = function(id) {
     if (!isDeviceOnline) {
-        showAlert("Action Denied", "Device is offline.", "error");
-        return;
+        showAlert("Notice", "Device is currently offline. Data will be updated as soon as it comes online.", "info");
+    }
+    showLoading();
+    const fish = dbFishes.find(f => f.id === id);
+    
+    if (fish) {
+        let updates = {};
+        updates['/fishMode'] = id;
+        updates['/currentFishName'] = fish.name;
+        
+        if (id !== 0) {
+            updates['/targetPhMin'] = fish.phMin || 0;
+            updates['/targetPhMax'] = fish.phMax || 0;
+            updates['/targetTempMin'] = fish.tempMin || 0;
+            updates['/targetTempMax'] = fish.tempMax || 0;
+            updates['/REL_WATER_FLOW'] = fish.flow || false;
+            updates['/REL_RAIN_PUMP'] = fish.rain || false;
+        } else {
+            updates['/targetPhMin'] = 0;
+            updates['/targetPhMax'] = 0;
+            updates['/targetTempMin'] = 0;
+            updates['/targetTempMax'] = 0;
+        }
+        
+        update(ref(db), updates).then(() => {
+            hideLoading();
+            if(isDeviceOnline) {
+                showAlert("Success", `${fish.name} Mode Activated!`, "success");
+            }
+        }).catch(() => {
+            hideLoading();
+            showAlert("Error", "Failed to change mode.", "error");
+        });
+    } else {
+        hideLoading();
+    }
+}
+
+window.toggleRelay = function(id) {
+    if (!isDeviceOnline) {
+        showAlert("Notice", "Device is currently offline. Data will be updated as soon as it comes online.", "info");
     }
     showLoading();
     set(ref(db, id), !relayStates[id]).then(() => {
