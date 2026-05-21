@@ -1107,6 +1107,7 @@ window.toggleLocalAPMode = function() {
         knob.style.transform = "translateX(24px)";
         dismissOfflineModal();
         setAPOfflineState();
+        
         fetchLocalData();
         apFetchInterval = setInterval(fetchLocalData, 1000);
     } else {
@@ -1228,7 +1229,11 @@ window.saveWifiConfig = function() {
 
     if(isAppInAPMode) {
         fetch(`http://192.168.4.1/api/setWifi?ssid=${encodeURIComponent(ssid)}&pass=${encodeURIComponent(pass)}`)
-        .then(() => { showAlert("Successful", "WiFi credentials sent! Restarting...", "success"); document.getElementById('wifi-ssid').value = ''; passInput.value = ''; })
+        .then(() => { 
+            showAlert("Successful", "WiFi credentials sent! Restarting...", "success"); 
+            document.getElementById('wifi-ssid').value = ''; 
+            passInput.value = ''; 
+        })
         .catch(() => { showAlert("Error", "ESP Not Found", "error"); });
         return;
     }
@@ -1263,7 +1268,11 @@ window.saveAPConfig = function() {
 
     if(isAppInAPMode) {
         fetch(`http://192.168.4.1/api/setAP?ssid=${encodeURIComponent(ssid)}&pass=${encodeURIComponent(pass)}`)
-        .then(() => { showAlert("Successful", "AP Config sent! Restarting...", "success"); document.getElementById('ap-ssid').value = ''; passInput.value = ''; })
+        .then(() => { 
+            showAlert("Successful", "AP Config sent! Restarting...", "success"); 
+            document.getElementById('ap-ssid').value = ''; 
+            passInput.value = ''; 
+        })
         .catch(() => { showAlert("Error", "ESP Not Found", "error"); });
         return;
     }
@@ -1279,6 +1288,7 @@ window.saveAPConfig = function() {
         showAlert("Error", "Failed to update AP details.", "error");
     });
 }
+
 window.checkAPPassLength = function() {
     const passInput = document.getElementById('ap-pass');
     const errorMsg = document.getElementById('ap-pass-error');
