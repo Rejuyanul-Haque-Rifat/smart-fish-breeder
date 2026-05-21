@@ -1102,16 +1102,17 @@ window.toggleLocalAPMode = function() {
     const track = document.getElementById('track-ap');
     const knob = document.getElementById('knob-ap');
     
-    if (isAppInAPMode) {
+    if(isAppInAPMode) {
         track.className = "w-12 h-6 bg-blue-500 rounded-full shadow-inner smooth-transition";
         knob.style.transform = "translateX(24px)";
         dismissOfflineModal();
         setAPOfflineState();
-        initWebSocket();
+        fetchLocalData();
+        apFetchInterval = setInterval(fetchLocalData, 1000);
     } else {
         track.className = "w-12 h-6 bg-slate-200 rounded-full shadow-inner smooth-transition";
         knob.style.transform = "translateX(0px)";
-        if (ws) ws.close();
+        clearInterval(apFetchInterval);
         
         if (isDeviceOnline) setOnlineState();
         else setOfflineState();
@@ -1145,9 +1146,11 @@ window.fetchLocalData = function() {
 }
 
 window.toggleRelay = function(id) {
-    if(isAppInAPMode && ws && ws.readyState === 1) {
+    if(isAppInAPMode) {
         let newState = !relayStates[id];
-        ws.send(JSON.stringify({ cmd: "setRelay", id: id, state: newState ? 1 : 0 }));
+        fetch(`http://192.168.4.1/api/setRelay?id=${id}&state=${newState ? 1 : 0}`);
+        relayStates[id] = newState;
+        updateRelayVisuals();
         return;
     }
     
@@ -1164,13 +1167,8 @@ window.selectHomeFish = function(id) {
     const fish = dbFishes.find(f => f.id === id);
     if (!fish) return;
 
-    if(isAppInAPMode && ws && ws.readyState === 1) {
-        ws.send(JSON.stringify({
-            cmd: "setMode", id: id, name: fish.name,
-            tMin: fish.tempMin||0, tMax: fish.tempMax||0,
-            pMin: fish.phMin||0, pMax: fish.phMax||0,
-            flow: fish.flow?1:0, rain: fish.rain?1:0
-        }));
+    if(isAppInAPMode) {
+        fetch(`http://192.168.4.1/api/setMode?id=${id}&name=${encodeURIComponent(fish.name)}&tMin=${fish.tempMin||0}&tMax=${fish.tempMax||0}&pMin=${fish.phMin||0}&pMax=${fish.phMax||0}&flow=${fish.flow?1:0}&rain=${fish.rain?1:0}`);
         showAlert("Success", `${fish.name} Mode Activated Locally!`, "success");
         return;
     }
@@ -1206,11 +1204,11 @@ window.selectHomeFish = function(id) {
 window.moveCamServo = function(axis, step) {
     if(axis === 'pan') {
         camPan = Math.max(0, Math.min(180, camPan + step));
-        if(isAppInAPMode && ws && ws.readyState === 1) ws.send(JSON.stringify({ cmd: "moveCam", pan: camPan, tilt: camTilt }));
+        if(isAppInAPMode) fetch(`http://192.168.4.1/api/moveCam?pan=${camPan}&tilt=${camTilt}`);
         else set(ref(db, 'camera/pan'), camPan);
     } else {
         camTilt = Math.max(0, Math.min(180, camTilt + step));
-        if(isAppInAPMode && ws && ws.readyState === 1) ws.send(JSON.stringify({ cmd: "moveCam", pan: camPan, tilt: camTilt }));
+        if(isAppInAPMode) fetch(`http://192.168.4.1/api/moveCam?pan=${camPan}&tilt=${camTilt}`);
         else set(ref(db, 'camera/tilt'), camTilt);
     }
 }
@@ -1228,10 +1226,10 @@ window.saveWifiConfig = function() {
         return;
     }
 
-    if(isAppInAPMode && ws && ws.readyState === 1) {
-        ws.send(JSON.stringify({ cmd: "setWifi", ssid: ssid, pass: pass }));
-        showAlert("Successful", "WiFi credentials sent! Restarting...", "success"); 
-        document.getElementById('wifi-ssid').value = ''; passInput.value = '';
+    if(isAppInAPMode) {
+        fetch(`http://192.168.4.1/api/setWifi?ssid=${encodeURIComponent(ssid)}&pass=${encodeURIComponent(pass)}`)
+        .then(() => { showAlert("Successful", "WiFi credentials sent! Restarting...", "success"); document.getElementById('wifi-ssid').value = ''; passInput.value = ''; })
+        .catch(() => { showAlert("Error", "ESP Not Found", "error"); });
         return;
     }
 
@@ -1281,7 +1279,6 @@ window.saveAPConfig = function() {
         showAlert("Error", "Failed to update AP details.", "error");
     });
 }
-
 window.checkAPPassLength = function() {
     const passInput = document.getElementById('ap-pass');
     const errorMsg = document.getElementById('ap-pass-error');
